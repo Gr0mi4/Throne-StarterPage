@@ -1,0 +1,101 @@
+body {
+  background-image: url(images/main-background.jpg);
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+.game-name {
+  text-align: center;
+  font-size: 100px;
+  color: #8d5d2d;
+  text-shadow:
+  4px 4px 2px #000000,
+  -2px -2px 20px #c9a36e;
+  font-family: 'Vast Shadow', cursive;
+  margin: 0 auto;
+  width: 1024px;
+  position: relative;
+}
+
+.menu-button {
+  padding: 10px;
+  position: absolute;
+  background: rgba(0, 0, 0, 0.2);
+  color: #8d5d2d;
+  font-size: 40px;
+  left: 10%;
+  top: 42px;
+  font-family: 'Vast Shadow', cursive;
+  text-shadow: 5px 5px 2px #000;
+  transition: background 2s, transform 2s, text-shadow 2s;
+}
+
+.menu-button:hover {
+  background: rgba(0, 0, 0, 0.7);
+  text-shadow: 15px 15px 5px #000;
+  transform: scale(1.05);
+  cursor: pointer;
+}
+
+.about-link {
+  padding: 10px;
+  position: absolute;
+  background: rgba(0, 0, 0, 0.2);
+  color: #8d5d2d;
+  font-size: 40px;
+  right: 10%;
+  top: 42px;
+  font-family: 'Vast Shadow', cursive;
+  text-shadow: 5px 5px 2px #000;
+  transition: background 2s, transform 2s, text-shadow 2s;
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  text-align: center;
+  color: #8d5d2d;
+  text-shadow:
+  3px 3px 2px #000,
+  -2px -2px 2px #000;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+@media screen and (max-width: 1225px)  {
+    .about-link, .menu-button {
+      top: 140px;
+    }
+    .page-name {
+      width: auto;
+    }
+}
+
+
+@media screen and (max-width: 840px)  {
+
+  .about-link, .menu-button {
+    top: 100px;
+    font-size: 30px;
+  }
+
+    .game-name {
+      font-size: 60px;
+      width: auto;
+    }
+}
+
+@media screen and (max-width: 400px)  {
+
+  .about-link, .menu-button {
+    top: 50px;
+    font-size: 15px;
+  }
+
+    .game-name {
+      font-size: 30px;
+      width: auto;
+    }
+}
