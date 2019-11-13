@@ -62,17 +62,18 @@ body {
   cursor: pointer;
 }
 
-.about-link {
+.game-link {
   padding: 10px;
   position: absolute;
   background: rgba(0, 0, 0, 0.2);
   color: #8d5d2d;
-  font-size: 40px;
-  right: 10%;
-  top: 42px;
+  font-size: 60px;
+  top: 40%;
+  left: 45%;
   font-family: 'Vast Shadow', cursive;
   text-shadow: 5px 5px 2px #000;
   transition: background 2s, transform 2s, text-shadow 2s;
+  text-decoration: none;
 }
 
 .footer {
