@@ -15,10 +15,17 @@ let lifeLostText;
 let textStyle = { font: '18px Arial', fill: '#0095DD'};
 let playing = false;
 let startButton;
+let seconds = 0;
+let minutes = 0;
+let timeText;
+let gameStarted = false;
+let results;
+let bestResult;
+let playerName = prompt("Здравствуйте! Введите свое имя!", 'Игрок-1');
+
 
 function preload() {
     game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
-
     game.scale.pageAlignHorizontally = true;
     game.scale.pageAlignVertically = true;
     game.stage.backgroundColor = "#eee";
@@ -44,6 +51,10 @@ function create() {
     game.physics.enable(paddle, Phaser.Physics.ARCADE);
     paddle.body.immovable = true;
     initBricks();
+
+
+    //Текст в игре
+
     scoreText = game.add.text(5,5, 'Points: 0', textStyle);
     livesText = game.add.text(game.world.width-5, 5, 'Lives: '+lives, textStyle);
     livesText.anchor.set(1,0);
@@ -52,6 +63,8 @@ function create() {
     lifeLostText.visible = false;
     startButton = game.add.button(game.world.width*0.5, game.world.height*0.5, 'button', startGame, this, 1, 0, 2);
     startButton.anchor.set(0.5);
+    timeText = game.add.text(200, 5, 'Time: ', textStyle);
+    chronograph();
 }
 function update() {
     game.physics.arcade.collide(ball, paddle, ballHitPaddle);
@@ -99,12 +112,32 @@ function ballHitBrick(ball, brick) {
     scoreText.setText('Points: ' +score);
 
     if (score === (c*r*10)) {
-        alert('You won the game, congratulations!');
+        alert('You won the game, congratulations! Your time is ' +minutes + ' minutes and ' +seconds + ' seconds');
+        results = {
+            'name' : playerName,
+            'time' : seconds,
+            'score': score
+        };
+        bestResult = JSON.parse(localStorage.getItem('results'));
+        console.log(bestResult);
+        if (bestResult !== null) {
+            if (bestResult.time > results.time) {
+                localStorage.setItem('results', JSON.stringify(results));
+                alert('Поздравляем! Ваш результат - лучший')
+            }
+            else {alert('Неплохо но ' + bestResult.name + ' был быстрее - ' + bestResult.time + ' секунд лучший результат!')}
+        }
+        else {
+            alert('Поздравляем! Вы установили первый результат!');
+            localStorage.setItem('results', JSON.stringify(results));
+        }
+
         location.reload();
     }
 }
 function ballLeaveScreen() {
     lives--;
+    gameStarted = false;
     if(lives) {
         livesText.setText('Lives: '+lives);
         lifeLostText.visible = true;
@@ -113,9 +146,11 @@ function ballLeaveScreen() {
         game.input.onDown.addOnce(function(){
             lifeLostText.visible = false;
             ball.body.velocity.set(150, -150);
+            gameStarted = true;
         }, this);
     }
     else {
+        gameStarted = false;
         alert('You lost, game over!');
         location.reload();
     }
@@ -128,5 +163,22 @@ function ballHitPaddle(ball, paddle) {
 function startGame() {
     startButton.destroy();
     ball.body.velocity.set(150, -150);
-    playing = true;
+    gameStarted = true;
+}
+
+function addTime() {
+    if (gameStarted === true) {
+        seconds++;
+        if (seconds < 10) {seconds = '0' +seconds}
+        if (minutes < 10) {timeText.setText('Time: 0' +minutes + ':' +seconds);}
+        else {timeText.setText('Time: ' +minutes + ':' +seconds);}
+        if (seconds == 60) {
+            minutes += 1;
+            seconds = 0;
+        }
+    }
+}
+
+function chronograph() {
+    setInterval(addTime, 1000);
 }
